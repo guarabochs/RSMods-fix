@@ -88,46 +88,10 @@ namespace RS2014_Mod_Installer
         readonly static byte[] HASH_EXE = { 0xA7, 0x25, 0x84, 0x61, 0x10, 0x1D, 0xA0, 0x20, 0x17, 0x07, 0xF5, 0xC2, 0x72, 0xBA, 0xAA, 0x62, 0xA3, 0xD3, 0xD1, 0x0B, 0x3D, 0x22, 0x13, 0xC0, 0xD0, 0xF2, 0x1C, 0xC8, 0x3B, 0x45, 0x88, 0xDA };
         readonly static byte[] HASH_EXE_NEW = { 0x0d, 0x42, 0xe2, 0xff, 0x3c, 0x7a, 0xf6, 0x84, 0x3e, 0xcb, 0x81, 0x25, 0x9c, 0xc6, 0x4f, 0x1d, 0xde, 0xfa, 0x13, 0x97, 0xb7, 0xce, 0x53, 0xfd, 0xcf, 0x0a, 0x05, 0xd0, 0xb6, 0x1a, 0x0d, 0xc3 };
 
-        public static void IsVoid(string installLocation) // Anti-Piracy Check (False = Real, True = Pirated) || Modified from Beat Saber Mod Assistant
+        public static void IsVoid(string installLocation)
         {
-            string reason = string.Empty;
-            bool fakeSteamApi = true;
-            try
-            {
-                X509Certificate2 cert = new X509Certificate2(X509Certificate.CreateFromSignedFile(Path.Combine(installLocation, "steam_api.dll")));
-
-                if (cert.GetNameInfo(X509NameType.SimpleName, false) == "Valve" || cert.Verify())
-                {
-                    fakeSteamApi = false;
-                }
-                else
-                {
-                    reason += "Invalid steam_api.dll certificate.";
-                }
-            }
-            catch { } // Fall-through = bad cert.
-
-            bool areCrackIndicationsPresent = File.Exists(Path.Combine(installLocation, "IGG-GAMES.COM.url")) || File.Exists(Path.Combine(installLocation, "SmartSteamEmu.ini")) || File.Exists(Path.Combine(installLocation, "GAMESTORRENT.CO.url")) || File.Exists(Path.Combine(installLocation, "Codex.ini")) || File.Exists(Path.Combine(installLocation, "Skidrow.ini")) || File.Exists(Path.Combine(installLocation, "steamclient.dll"));
-
-            if (areCrackIndicationsPresent)
-            {
-                reason += "\nParts of game crack are present in the folder.";
-            }
-
-            bool isExeInvalid = !CheckExecutable(installLocation);
-
-            if (isExeInvalid)
-            {
-                reason += "\nGame executable version doesn't appear to be correct.";
-            }
-
-            if (areCrackIndicationsPresent || fakeSteamApi || isExeInvalid)
-            {
-                MessageBox.Show($"Incompatible Rocksmith version detected! Only the newest RS version is supported - RSMods doesn't support pirated / stolen copies of Rocksmith 2014! {Environment.NewLine}Reason: {reason}", "Incompatible Rocksmith version", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Process.Start("https://store.steampowered.com/app/221680/");
-                Environment.Exit(1);
-                return;
-            }
+            // honestly fuck you
+            return;
         }
 
         private static bool CheckExecutable(string installLocation)
